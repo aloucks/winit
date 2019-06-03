@@ -6,7 +6,7 @@ use dpi::LogicalSize;
 use platform_impl::platform::{util, event_loop};
 use platform_impl::platform::icon::WinIcon;
 use winapi::shared::windef::{RECT, HWND};
-use winapi::shared::minwindef::DWORD;
+use winapi::shared::minwindef::{DWORD, WPARAM};
 use winapi::um::winuser;
 
 /// Contains information about states and the window that the callback is going to use.
@@ -25,6 +25,7 @@ pub struct WindowState {
     pub dpi_factor: f64,
 
     pub fullscreen: Option<MonitorHandle>,
+    pub deferred_nclbuttondown_wparam: Option<WPARAM>,
     window_flags: WindowFlags,
 }
 
@@ -105,7 +106,8 @@ impl WindowState {
             dpi_factor,
 
             fullscreen: None,
-            window_flags: WindowFlags::empty()
+            window_flags: WindowFlags::empty(),
+            deferred_nclbuttondown_wparam: None,
         }
     }
 
